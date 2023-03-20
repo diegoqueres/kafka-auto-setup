@@ -1,0 +1,20 @@
+{
+   "type":"record",
+   "name":"Customer",
+   "namespace":"com.example.kafkaautosetup.avro.customer",
+   "fields":[
+      {
+         "name":"name",
+         "type":"string"
+      },
+      {
+         "name":"email",
+         "type":"string"
+      },
+      {
+          "name":"birthDate",
+          "type":"string",
+          "doc":"ISO 8601 Date format"
+      }
+   ]
+}
