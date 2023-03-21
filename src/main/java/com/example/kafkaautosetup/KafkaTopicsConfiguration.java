@@ -31,19 +31,19 @@ public class KafkaTopicsConfiguration {
 
     @Bean
     public RestService schemaRegistryRestService() {
-        log.info("Endereço do schema registry: {}", kafkaProperties.getProperties().get("schema.registry.url"));
         return new RestService(kafkaProperties.getProperties().get("schema.registry.url"));
     }
 
     @Bean("customersTopic")
     public NewTopic customersTopic() {
-        log.info("Initializing topic customers");
+        log.info("Initializing topic #customers");
         return TopicBuilder.name("customers").partitions(1).replicas(1).build();
     }
 
     @Bean
     @DependsOn({"customersTopic"})
     public void registerCustomerAvroSchema() throws IOException, RestClientException {
+        log.info("Registering avro schema for topic #customers");
         String topicName = "customers";
         String schemaFileName = "Customer.avsc";
         String subjectName = String.format("%s-value", topicName);
