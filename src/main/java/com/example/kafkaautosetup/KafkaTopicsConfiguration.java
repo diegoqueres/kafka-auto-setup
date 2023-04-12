@@ -43,7 +43,6 @@ public class KafkaTopicsConfiguration {
     @Bean
     @DependsOn({"customersTopic"})
     public void registerCustomerAvroSchema() throws IOException, RestClientException {
-        log.info("Registering avro schema for topic #customers");
         String topicName = "customers";
         String schemaFileName = "Customer.avsc";
 
