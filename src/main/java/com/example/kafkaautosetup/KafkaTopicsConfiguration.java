@@ -43,19 +43,23 @@ public class KafkaTopicsConfiguration {
     @Bean
     @DependsOn({"customersTopic"})
     public void registerCustomerAvroSchema() throws IOException, RestClientException {
-        log.info("Registering avro schema for topic #customers");
         String topicName = "customers";
         String schemaFileName = "Customer.avsc";
-        String subjectName = String.format("%s-value", topicName);
+
+        String subjectValue = String.format("%s-value", topicName);
 
         Schema.Parser parser = new Schema.Parser();
-        Schema schema = parser.parse(getAvroSchema(schemaFileName));
+        Schema schemaValue = parser.parse(getAvroSchema(schemaFileName));
 
+        registerSchema(subjectValue, schemaValue);
+    }
+
+    private void registerSchema(String subject, Schema schema) throws IOException, RestClientException {
         RegisterSchemaRequest registerSchemaRequest = new RegisterSchemaRequest();
         registerSchemaRequest.setSchema(schema.toString());
         registerSchemaRequest.setReferences(List.of(new SchemaReference[0]));
 
-        schemaRegistryRestService().registerSchema(registerSchemaRequest, subjectName, false);
+        schemaRegistryRestService().registerSchema(registerSchemaRequest, subject, false);
     }
 
     private String getAvroSchema(String fileName) throws IOException {
